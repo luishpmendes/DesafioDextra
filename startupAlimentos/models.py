@@ -13,3 +13,4 @@ class Lanche(models.Model):
 class Promocao(models.Model):
     nome = models.CharField(max_length=100)
     regra_de_negocio = models.CharField(max_length=300)
+    esta_ativa = models.BooleanField(default=False)
