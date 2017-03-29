@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.views import generic
 
-from .models import Ingrediente, Lanche
+from .models import Ingrediente, Lanche, LancheIngrediente
 from .forms import LancheForm
 
 class IndexView(generic.ListView):
@@ -26,7 +26,15 @@ def montarLanche(request):
     if request.method == 'GET':
         form = LancheForm(ingredientes=ingredientes)
     else:
-        form = LancheForm(request.POST)
+        form = LancheForm(request.POST, ingredientes=ingredientes)
+        print ("form")
         if form.is_valid():
+            nome = form.cleaned_data['nome']
+            lanche = Lanche(nome=nome)
+            lanche.save()
+            for ingrediente in ingredientes:
+                quantidade = form.cleaned_data['ingrediente-' + str(ingrediente.id)]
+                lanche_ingrediente = LancheIngrediente(lanche=lanche, ingrediente=ingrediente, quantidade=quantidade)
+                lanche_ingrediente.save()
             return HttpResponseRedirect(reverse('startupAlimentos:index'))
     return render(request, 'startupAlimentos/montarLanche.html', {'form': form, 'ingredientes': ingredientes,})

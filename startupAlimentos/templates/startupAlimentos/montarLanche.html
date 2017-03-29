@@ -1,0 +1,12 @@
+<form action="{% url 'startupAlimentos:montarLanche' %}" method="post">
+    {% csrf_token %}
+    <h1>Monte seu Lanche!</h1>
+    <table>
+        {{ form.as_table }}
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" value="Montar Lanche!" />
+            </td>
+        </tr>
+    </table>
+</form>

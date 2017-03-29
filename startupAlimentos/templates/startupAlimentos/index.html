@@ -1,0 +1,11 @@
+{% if lanches %}
+    <h1>Cardápio</h1>
+    <ul>
+    {% for lanche in lanches %}
+        <li><a href="{% url 'startupAlimentos:detail' lanche.id %}">{{ lanche.nome }}</a></li>
+    {% endfor %}
+    </ul>
+    <a href="{% url 'startupAlimentos:montarLanche' %}">Montar lanche</a>
+{% else %}
+    <p>Nenhum lanche disponível.</p>
+{% endif %}
