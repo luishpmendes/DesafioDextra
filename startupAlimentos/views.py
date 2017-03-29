@@ -27,7 +27,6 @@ def montarLanche(request):
         form = LancheForm(ingredientes=ingredientes)
     else:
         form = LancheForm(request.POST, ingredientes=ingredientes)
-        print ("form")
         if form.is_valid():
             nome = form.cleaned_data['nome']
             lanche = Lanche(nome=nome)
