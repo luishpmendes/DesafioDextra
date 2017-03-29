@@ -1,11 +1,30 @@
 {% if lanches %}
     <h1>Cardápio</h1>
-    <ul>
-    {% for lanche in lanches %}
-        <li><a href="{% url 'startupAlimentos:detail' lanche.id %}">{{ lanche.nome }}</a></li>
-    {% endfor %}
-    </ul>
-    <a href="{% url 'startupAlimentos:montarLanche' %}">Montar lanche</a>
+    <table>
+        <tr>
+            <th>
+                Lanche
+            </th>
+            <th>
+                Valor
+            </th>
+        </tr>
+        {% for lanche in lanches %}
+            <tr>
+                <td>
+                    <a href="{% url 'startupAlimentos:detail' lanche.id %}">{{ lanche.nome }}</a>
+                </td>
+                <td>
+                    <a href="{% url 'startupAlimentos:detail' lanche.id %}">{{ lanche.valor }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2" align="center">
+                <a href="{% url 'startupAlimentos:montarLanche' %}">Montar lanche</a>
+            </td>
+        </tr>
+    </table>
 {% else %}
     <p>Nenhum lanche disponível.</p>
 {% endif %}
