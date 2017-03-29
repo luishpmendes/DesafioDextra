@@ -1,13 +1,13 @@
 <form action="{% url 'startupAlimentos:pedir' lanche.id %}" method="post">
-{% csrf_token %}
-<h1>{{ lanche.nome }}</h1>
-Ingredientes:
-<ul>
-{% for lanche_ingrediente in lanche.lancheingrediente_set.all %}
-    <li>{{ lanche_ingrediente.quantidade }} x {{ lanche_ingrediente.ingrediente }}</li>
-{% endfor %}
-</ul>
-Valor: ${{ lanche.valor }}
-<br/>
-<input type="submit" value="Pedir" />
+    {% csrf_token %}
+    <h1>{{ lanche.nome }}</h1>
+    Ingredientes:
+    <ul>
+        {% for lanche_ingrediente in lanche.lancheingrediente_set.all %}
+            <li>{{ lanche_ingrediente.quantidade }} x {{ lanche_ingrediente.ingrediente }}</li>
+        {% endfor %}
+    </ul>
+    Valor: ${{ lanche.valor }}
+    <br/>
+    <input type="submit" value="Pedir" />
 </form>
