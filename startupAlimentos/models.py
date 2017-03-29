@@ -1,3 +1,5 @@
+import decimal
+
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -30,8 +32,8 @@ class Lanche(models.Model):
             muitaCarne = Promocao.objects.filter(nome="Muita carne")[0]
             muitaCarneAtiva = muitaCarne.esta_ativa
         muitoQueijoAtiva = False
-        if (len(Promocao.objects.filter(nome="Muita queijo")) > 0): # se existe a promoção Muita queijo
-            muitoQueijo = Promocao.objects.filter(nome="Muita queijo")[0]
+        if (len(Promocao.objects.filter(nome="Muito queijo")) > 0): # se existe a promoção Muita queijo
+            muitoQueijo = Promocao.objects.filter(nome="Muito queijo")[0]
             muitoQueijoAtiva = muitaCarne.esta_ativa
         for ingrediente in self.ingredientes.all():
             lanche_ingrediente = LancheIngrediente.objects.get(lanche=self, ingrediente=ingrediente)
@@ -43,9 +45,9 @@ class Lanche(models.Model):
         if (len(Promocao.objects.filter(nome="Light")) > 0): # se existe a promoção Light
             light = Promocao.objects.filter(nome="Light")[0]
             if (light.esta_ativa): # se a promoção Light está ativa
-                if (len(self.ingredientes.filter(nome="alface")) > 0 and self.ingredientes.filter(nome="alface")[0].quantidade > 0): # se o lanche possui alface
-                    if (len(self.ingredientes.filter(nome="bacon")) <= 0 or self.ingredientes.filter(nome="bacon")[0].quantidade <= 0): # se o lanche não possui bacon
-                        result = 0.9 * result
+                if (len(self.ingredientes.filter(nome="Alface")) > 0 and LancheIngrediente.objects.get(lanche=self, ingrediente=self.ingredientes.filter(nome="Alface")[0]).quantidade > 0): # se o lanche possui Alface
+                    if (len(self.ingredientes.filter(nome="Bacon")) <= 0 or LancheIngrediente.objects.get(lanche=self, ingrediente=self.ingredientes.filter(nome="Bacon")[0]).quantidade <= 0): # se o lanche não possui Bacon
+                        result *= decimal.Decimal('0.9')
         return result
 
 class LancheIngrediente(models.Model):
