@@ -1,8 +1,20 @@
+{% load static %}
+
+<script type="text/javascript" src="{% static "jquery-3.2.0.js" %}"></script>
+
 <form action="{% url 'startupAlimentos:montarLanche' %}" method="post">
     {% csrf_token %}
     <h1>Monte seu Lanche!</h1>
     <table>
         {{ form.as_table }}
+        <tr>
+            <th>
+                Valor total
+            </th>
+            <td>
+                <input type="number" id="valorTotal" value="0.00" readonly="readonly" />
+            </td>
+        </tr>
         <tr>
             <td colspan="2" align="center">
                 <input type="submit" value="Montar Lanche!" />
@@ -10,3 +22,29 @@
         </tr>
     </table>
 </form>
+
+<script>
+    function atualizaValor() {
+        valorTotal = 0;
+        {% for ingrediente in ingredientes %}
+            quantidade = parseInt($("#id_ingrediente-{{ ingrediente.id }}").val())
+            valor = {{ ingrediente.valor }};
+            valorTotal += quantidade * valor;
+            {% if ingrediente.nome == "Hambúrguer de carne" %}
+                valorTotal -= Math.floor(quantidade / 3) * valor;
+            {% endif %}
+            {% if ingrediente.nome == "Queijo" %}
+                valorTotal -= Math.floor(quantidade / 3) * valor;
+            {% endif %}
+        {% endfor %}
+        if (parseInt($("#id_ingrediente-1").val()) > 0 && parseInt($("#id_ingrediente-2").val()) == 0) {
+            valorTotal *= 0.9;
+        }
+        valorTotal = valorTotal.toFixed(2);
+        $("#valorTotal").val(valorTotal);
+    }
+    {% for ingrediente in ingredientes %}
+        $("#id_ingrediente-{{ ingrediente.id }}").change(atualizaValor);
+    {% endfor %}
+    $("#id_ingrediente-1").on("change click paste keyup mouseup", atualizaValor);
+</script>
